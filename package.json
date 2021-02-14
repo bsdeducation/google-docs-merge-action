@@ -1,0 +1,38 @@
+{
+  "name": "google-docs-merge-action",
+  "version": "0.0.1",
+  "description": "Google Docs Merge Action",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "prepare": "ncc build index.js -o dist --source-map --license licenses.txt",
+    "test": "jest",
+    "all": "npm run lint && npm run prepare && npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bsdeducation/google-docs-merge-action.git"
+  },
+  "keywords": [
+    "GitHub",
+    "Actions",
+    "Google Docs"
+  ],
+  "author": "BSD Education",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bsdeducation/google-docs-merge-action/issues"
+  },
+  "homepage": "https://github.com/bsdeducation/google-docs-merge-action#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.5",
+    "google-auth-library": "^7.0.2",
+    "googleapis": "^67.0.0",
+    "lodash": "^4.17.20"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.27.0",
+    "eslint": "^7.4.0",
+    "jest": "^26.6.3"
+  }
+}

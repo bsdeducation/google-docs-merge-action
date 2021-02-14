@@ -1,0 +1,29 @@
+name: 'Google Docs Merge Action'
+description: 'Create a new Google Doc based on a read-only template and merge in some string replacements'
+inputs:
+  googleServiceAccountEmail:
+    description: 'Email address of the Google service account which has permission to access Drive and Docs APIs and to read the document identified by templateDocId'
+    required: true
+  googleServiceAccountPrivateKey:
+    description: 'Private key for the above service account'
+    required: true
+  templateDocId:
+    description: 'Google Drive ID of the template document. This document will not be modified.'
+    required: true
+  ownerEmailAddress:
+    description: 'Email address of the user who should become owner of the newly created document.'
+    required: true
+  newTitle:
+    description: 'Title of the newly created document.'
+    required: true
+  replacements:
+    description: 'An object whose attributes and values describe the search and replace operations on the newly created document.'
+    required: false
+outputs:
+  docId:
+    description: 'The Drive ID of the newly created document'
+  url:
+    description: 'The Drive URL for viewing/editing the newly created document'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
