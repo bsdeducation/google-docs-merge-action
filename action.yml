@@ -15,12 +15,11 @@ inputs:
     required: true
   newTitle:
     description: 'Title of the newly created document.'
-    required: true
   replacements:
     description: 'An object whose attributes and values describe the search and replace operations on the newly created document.'
     required: false
 outputs:
-  docId:
+  newDocId:
     description: 'The Drive ID of the newly created document'
   url:
     description: 'The Drive URL for viewing/editing the newly created document'

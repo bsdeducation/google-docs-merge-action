@@ -6,7 +6,7 @@ test('createGoogleDoc', async () => {
 #124 second one`;
   const googleServiceAccountEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
   const googleServiceAccountPrivateKey = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY;
-  const {newFileId, url} = await createGoogleDoc({
+  const {newDocId, url} = await createGoogleDoc({
     googleServiceAccountEmail,
     googleServiceAccountPrivateKey,
     templateDocId: '1KpPTxUmgPCiwe0kr9lc4RFqfVfN4DgT3X-0dhm0BsjA',
@@ -22,6 +22,6 @@ test('createGoogleDoc', async () => {
     }
   });
   console.log('New file: ', url);
-  expect(newFileId).toBeTruthy();
-  expect(url).toContain(newFileId);
+  expect(newDocId).toBeTruthy();
+  expect(url).toContain(newDocId);
 });

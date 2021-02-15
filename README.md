@@ -1,22 +1,44 @@
 # Google Docs Merge Action
 
-Prerequisites
+A GitHub Action to make a copy of a template Google Doc then apply some 'replacements', like a mail merge process. 
+
+The template can include any number of placeholders like `{{userName}}` and `{{favouriteColor}}`. The `replacements` parameter to this action is a stringified object like:
+```
+{
+  "userName": "Deadpool",
+  "favouriteColor": "red"
+}
+```
+
+# Prerequisites
 Create a [Google Service Account](https://cloud.google.com/iam/docs/creating-managing-service-accounts)
 
+# Usage
+
+```yaml
+- name: Prepare google docs input
+  id: prepare-google-dec
+  run: |
+    echo ::set-output name=replacements::'{ "userName": "${{ github.event.inputs.userName }}", "favouriteColor": "red" }'
+- name: 
+  uses: bsdeducation/google-docs-merge-action@v0.0.1
+  with:
+    googleServiceAccountEmail: service-account-name@my-project.iam.gserviceaccount.com
+    googleServiceAccountPrivateKey: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}
+    templateDocId: 1yBx6HSnu_gbV2sk1nChJOFo_g3AizBhr-PpkyKAwcTg
+    ownerEmailAddress: something@example.com
+    newTitle: New doc title
+    replacements: ${{ steps.prepare-google-doc.outputs.replacements}}
+```
+
+See the [actions tab](https://github.com/actions/javascript-action/actions) for runs of this action! :rocket:
+
 <p align="center">
-  <a href="https://github.com/actions/javascript-action/actions"><img alt="javscript-action status" src="https://github.com/actions/javascript-action/workflows/units-test/badge.svg"></a>
+  <a href="https://github.com/bsdeducation/google-docs-merge-action/actions"><img alt="javscript-action status" src="https://github.com/bsdeducation/google-docs-merge-action/workflows/units-test/badge.svg"></a>
 </p>
 
-Use this template to bootstrap the creation of a JavaScript action.:rocket:
 
-This template includes tests, linting, a validation workflow, publishing, and versioning guidance.
-
-If you are new, there's also a simpler introduction.  See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
-
-## Create an action from this template
-
-Click the `Use this Template` and provide the new repo details for your action
-
+# Developing this action
 ## Code in Main
 
 Install the dependencies
@@ -36,36 +58,6 @@ $ npm test
   ✓ test runs (95ms)
 ...
 ```
-
-## Change action.yml
-
-The action.yml defines the inputs and output for your action.
-
-Update the action.yml with your name, description, inputs and outputs for your action.
-
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
-
-## Change the Code
-
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
-
-```javascript
-const core = require('@actions/core');
-...
-
-async function run() {
-  try {
-      ...
-  }
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-run()
-```
-
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
 
 ## Package for distribution
 
@@ -106,19 +98,4 @@ Your action is now published! :rocket:
 
 See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
 
-## Usage
 
-You can now consume the action by referencing the v1 branch
-
-```yaml
-uses: bsdeducation/google-docs-merge-action@v1
-with:
-  googleServiceAccountEmail: service-account-name@my-project.iam.gserviceaccount.com
-  googleServiceAccountPrivateKey: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}
-  templateDocId: 1yBx6HSnu_gbV2sk1nChJOFo_g3AizBhr-PpkyKAwcTg
-  ownerEmailAddress: something@example.com
-  newTitle: New doc title
-  replacements: 
-```
-
-See the [actions tab](https://github.com/actions/javascript-action/actions) for runs of this action! :rocket:

@@ -11,14 +11,14 @@ async function run() {
     const newTitle = core.getInput('newTitle');
     const replacements = JSON.parse(core.getInput('replacements'));
 
-    const {newFileId, url} = await createGoogleDoc({
+    const {newDocId, url} = await createGoogleDoc({
       googleServiceAccountEmail,
       googleServiceAccountPrivateKey,
       templateDocId,
       ownerEmailAddress, newTitle, replacements
     });
 
-    core.setOutput('newFileId', newFileId);
+    core.setOutput('newDocId', newDocId);
     core.setOutput('url', url);
   } catch (error) {
     core.setFailed(error.message);

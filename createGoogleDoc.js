@@ -5,18 +5,25 @@ const {get} = require('lodash');
 const SCOPES = ['https://www.googleapis.com/auth/documents', 'https://www.googleapis.com/auth/drive'];
 
 const createGoogleDoc = async function ({googleServiceAccountEmail, googleServiceAccountPrivateKey, templateDocId, ownerEmailAddress, newTitle, replacements}) {
-  const googleAuth = new JWT(googleServiceAccountEmail, null, googleServiceAccountPrivateKey.split('\\n').join('\n'), SCOPES);
-
   try {
+    const googleAuth = new JWT({
+      email: googleServiceAccountEmail, 
+      key: googleServiceAccountPrivateKey.split('\\n').join('\n'),
+      scopes: SCOPES,
+    });
     const drive = google.drive({version: 'v3', auth: googleAuth});
 
     // Make a copy of the template document, with a new title.
-    const newFile = await drive.files.copy({fileId: templateDocId,resource: {name: newTitle}});
-    const newFileId = get(newFile, 'data.id');
+    const resource = {};
+    if (newTitle) {
+      resource.name = newTitle;
+    }
+    const newFile = await drive.files.copy({fileId: templateDocId, resource});
+    const newDocId = get(newFile, 'data.id');
 
     // Give permissions for the new document.
     await drive.permissions.create({
-      fileId: newFileId,
+      fileId: newDocId,
       fields: 'id',
       // transferOwnership: true,
       resource: {
@@ -43,15 +50,15 @@ const createGoogleDoc = async function ({googleServiceAccountEmail, googleServic
     });
   
     await docs.documents.batchUpdate({
-      documentId: newFileId,
+      documentId: newDocId,
       resource: {
         requests,
       },
     });
     
     return {
-      newFileId,
-      url: `https://docs.google.com/document/d/${newFileId}/edit`,
+      newDocId,
+      url: `https://docs.google.com/document/d/${newDocId}/edit`,
     }
   } catch (err) {
     console.log('Failed to get doc contents: ' + err);
