@@ -1,8 +1,29 @@
+const dayjs = require('dayjs');
+const advancedFormat = require('dayjs/plugin/advancedFormat');
 const {JWT} = require('google-auth-library');
 const {google} = require('googleapis');
 const {get} = require('lodash');
 
+dayjs.extend(advancedFormat);
+
 const SCOPES = ['https://www.googleapis.com/auth/documents', 'https://www.googleapis.com/auth/drive'];
+
+function getDefaultReplacements(replacements) {
+  const keys = Object.keys(replacements);
+  const defaultReplacements = [];
+  if (!keys.includes('date')) {
+    defaultReplacements.push({
+      replaceAllText: {
+        containsText: {
+          text: `{{date}}`,
+          matchCase: true,
+        },
+        replaceText: dayjs().format('Do MMMM YYYY'),
+      }
+    });
+  }
+  return defaultReplacements;
+}
 
 const createGoogleDoc = async function ({googleServiceAccountEmail, googleServiceAccountPrivateKey, templateDocId, writerEmails, newTitle, replacements}) {
   const googleAuth = new JWT({
@@ -32,7 +53,7 @@ const createGoogleDoc = async function ({googleServiceAccountEmail, googleServic
   // Use Docs API to do search / replace on all the replacements.
   const docs = google.docs({version: 'v1', auth: googleAuth});
 
-  const requests = Object.entries(replacements).map(([search, replace]) => {
+  const customReplacements = Object.entries(replacements).map(([search, replace]) => {
     return {
       replaceAllText: {
         containsText: {
@@ -47,7 +68,7 @@ const createGoogleDoc = async function ({googleServiceAccountEmail, googleServic
   await docs.documents.batchUpdate({
     documentId: newDocId,
     resource: {
-      requests,
+      requests: [...customReplacements, ...getDefaultReplacements(replacements)],
     },
   });
   
