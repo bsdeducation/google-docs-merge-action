@@ -2,6 +2,7 @@ const dayjs = require('dayjs');
 const advancedFormat = require('dayjs/plugin/advancedFormat');
 const {JWT} = require('google-auth-library');
 const {google} = require('googleapis');
+const jsonParseMulti = require('json-multi-parse');
 const {get} = require('lodash');
 
 dayjs.extend(advancedFormat);
@@ -26,6 +27,11 @@ function getDefaultReplacements(replacements) {
 }
 
 const createGoogleDoc = async function ({googleServiceAccountEmail, googleServiceAccountPrivateKey, templateDocId, writerEmails, newTitle, replacements}) {
+  writerEmails = writerEmails && writerEmails.split(/[,;|]/);
+
+  const multiReplacements = jsonParseMulti(replacements);
+  replacements = Object.assign({}, ...multiReplacements);
+
   const googleAuth = new JWT({
     email: googleServiceAccountEmail, 
     key: googleServiceAccountPrivateKey.split('\\n').join('\n'),

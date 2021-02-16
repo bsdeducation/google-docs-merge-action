@@ -14,9 +14,9 @@ async function run() {
       googleServiceAccountEmail,
       googleServiceAccountPrivateKey,
       templateDocId,
-      writerEmails: writerEmails && writerEmails.split(/[,;|]/),
+      writerEmails,
       newTitle,
-      replacements: JSON.parse(replacements),
+      replacements,
     });
 
     core.setOutput('newDocId', newDocId);

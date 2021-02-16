@@ -2765,6 +2765,11 @@ json-bigint@^1.0.0:
   dependencies:
     bignumber.js "^9.0.0"
 
+json-multi-parse@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/json-multi-parse/-/json-multi-parse-1.2.0.tgz#2768b4b8ab9fc70ac2862cb1ad680e9492c7c5d8"
+  integrity sha512-zQBYH+LXu4f4d4Uy3++DxszQhfKCh0rdV9FweH+Jk8JJyuPAp9p71iOLjXserbUoyLpoVLKTfmaaDB8p51jHFg==
+
 json-parse-even-better-errors@^2.3.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/json-parse-even-better-errors/-/json-parse-even-better-errors-2.3.1.tgz#7c47805a94319928e05777405dc12e1f7a4ee02d"

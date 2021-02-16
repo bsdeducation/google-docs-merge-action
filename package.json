@@ -30,6 +30,7 @@
     "dayjs": "^1.10.4",
     "google-auth-library": "^7.0.2",
     "googleapis": "^67.0.0",
+    "json-multi-parse": "^1.2.0",
     "lodash": "^4.17.20"
   },
   "devDependencies": {
