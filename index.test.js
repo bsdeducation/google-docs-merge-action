@@ -2,6 +2,8 @@ const createGoogleDoc = require('./createGoogleDoc');
 const process = require('process');
 
 test('createGoogleDoc', async () => {
+  jest.setTimeout(10000);
+
   const issues = `#123 First one
 #124 second one`;
   const googleServiceAccountEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
@@ -10,7 +12,7 @@ test('createGoogleDoc', async () => {
     googleServiceAccountEmail,
     googleServiceAccountPrivateKey,
     templateDocId: '1KpPTxUmgPCiwe0kr9lc4RFqfVfN4DgT3X-0dhm0BsjA',
-    ownerEmailAddress: 'nm@bsd.education',
+    writerEmails: ['nm@bsd.education', 'nm2501@gmail.com'],
     newTitle: 'Release Notes: r108',
     replacements: {
       date: '10th Feb 2021',

@@ -10,9 +10,8 @@ inputs:
   templateDocId:
     description: 'Google Drive ID of the template document. This document will not be modified.'
     required: true
-  ownerEmailAddress:
-    description: 'Email address of the user who should become owner of the newly created document.'
-    required: true
+  writerEmails:
+    description: 'Email addresses of the users who should become writers of the newly created document.'
   newTitle:
     description: 'Title of the newly created document.'
   replacements:

@@ -4,65 +4,56 @@ const {get} = require('lodash');
 
 const SCOPES = ['https://www.googleapis.com/auth/documents', 'https://www.googleapis.com/auth/drive'];
 
-const createGoogleDoc = async function ({googleServiceAccountEmail, googleServiceAccountPrivateKey, templateDocId, ownerEmailAddress, newTitle, replacements}) {
-  try {
-    const googleAuth = new JWT({
-      email: googleServiceAccountEmail, 
-      key: googleServiceAccountPrivateKey.split('\\n').join('\n'),
-      scopes: SCOPES,
-    });
-    const drive = google.drive({version: 'v3', auth: googleAuth});
+const createGoogleDoc = async function ({googleServiceAccountEmail, googleServiceAccountPrivateKey, templateDocId, writerEmails, newTitle, replacements}) {
+  const googleAuth = new JWT({
+    email: googleServiceAccountEmail, 
+    key: googleServiceAccountPrivateKey.split('\\n').join('\n'),
+    scopes: SCOPES,
+  });
+  const drive = google.drive({version: 'v3', auth: googleAuth});
 
-    // Make a copy of the template document, with a new title.
-    const resource = {};
-    if (newTitle) {
-      resource.name = newTitle;
+  // Make a copy of the template document, with a new title.
+  const resource = {};
+  if (newTitle) {
+    resource.name = newTitle;
+  }
+  const newFile = await drive.files.copy({fileId: templateDocId, resource});
+  const newDocId = get(newFile, 'data.id');
+
+  // Give write permissions for the new document.
+  if (writerEmails) {
+    // Note - we only provide 'writer' permissions at the moment.
+    // It's not always possible to change the owner. The service account might not be in the same organisation as the target owner.
+    for (const emailAddress of writerEmails) {
+      await drive.permissions.create({fileId: newDocId, fields: 'id', resource: {type: 'user', role: 'writer', emailAddress}});
     }
-    const newFile = await drive.files.copy({fileId: templateDocId, resource});
-    const newDocId = get(newFile, 'data.id');
-
-    // Give permissions for the new document.
-    await drive.permissions.create({
-      fileId: newDocId,
-      fields: 'id',
-      // transferOwnership: true,
-      resource: {
-        type: 'user',
-        // role: 'owner',
-        role: 'writer',
-        emailAddress: ownerEmailAddress
-      },
-    });
-
-    // Use Docs API to do search / replace on all the replacements.
-    const docs = google.docs({version: 'v1', auth: googleAuth});
-
-    const requests = Object.entries(replacements).map(([search, replace]) => {
-      return {
-        replaceAllText: {
-          containsText: {
-            text: `{{${search}}}`,
-            matchCase: true,
-          },
-          replaceText: replace,
-        }
-      };
-    });
+  }
   
-    await docs.documents.batchUpdate({
-      documentId: newDocId,
-      resource: {
-        requests,
-      },
-    });
-    
+  // Use Docs API to do search / replace on all the replacements.
+  const docs = google.docs({version: 'v1', auth: googleAuth});
+
+  const requests = Object.entries(replacements).map(([search, replace]) => {
     return {
-      newDocId,
-      url: `https://docs.google.com/document/d/${newDocId}/edit`,
-    }
-  } catch (err) {
-    console.log('Failed to get doc contents: ' + err);
-    return {err};
+      replaceAllText: {
+        containsText: {
+          text: `{{${search}}}`,
+          matchCase: true,
+        },
+        replaceText: replace,
+      }
+    };
+  });
+
+  await docs.documents.batchUpdate({
+    documentId: newDocId,
+    resource: {
+      requests,
+    },
+  });
+  
+  return {
+    newDocId,
+    url: `https://docs.google.com/document/d/${newDocId}/edit`,
   }
 };
 
