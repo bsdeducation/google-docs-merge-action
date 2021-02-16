@@ -1,7 +1,7 @@
 {
-  "name": "google-docs-merge-action",
-  "version": "0.0.2",
-  "description": "Google Docs Merge Action",
+  "name": "gha-google-docs-create",
+  "version": "0.0.4",
+  "description": "GitHub Action to create a new Google Doc based on a template",
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bsdeducation/google-docs-merge-action.git"
+    "url": "git+https://github.com/bsdeducation/gha-google-docs-create.git"
   },
   "keywords": [
     "GitHub",
@@ -21,9 +21,9 @@
   "author": "BSD Education",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bsdeducation/google-docs-merge-action/issues"
+    "url": "https://github.com/bsdeducation/gha-google-docs-create/issues"
   },
-  "homepage": "https://github.com/bsdeducation/google-docs-merge-action#readme",
+  "homepage": "https://github.com/bsdeducation/gha-google-docs-create#readme",
   "dependencies": {
     "@actions/core": "^1.2.5",
     "bcrypt": "^5.0.0",

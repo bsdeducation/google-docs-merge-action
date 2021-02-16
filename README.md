@@ -21,7 +21,7 @@ Create a [Google Service Account](https://cloud.google.com/iam/docs/creating-man
   run: |
     echo ::set-output name=replacements::'{ "userName": "${{ github.event.inputs.userName }}", "favouriteColor": "red" }'
 - name: 
-  uses: bsdeducation/google-docs-merge-action@v0.0.1
+  uses: bsdeducation/gha-google-docs-create@v0.0.1
   with:
     googleServiceAccountEmail: service-account-name@my-project.iam.gserviceaccount.com
     googleServiceAccountPrivateKey: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}
@@ -34,7 +34,7 @@ Create a [Google Service Account](https://cloud.google.com/iam/docs/creating-man
 See the [actions tab](https://github.com/actions/javascript-action/actions) for runs of this action! :rocket:
 
 <p align="center">
-  <a href="https://github.com/bsdeducation/google-docs-merge-action/actions"><img alt="javscript-action status" src="https://github.com/bsdeducation/google-docs-merge-action/workflows/units-test/badge.svg"></a>
+  <a href="https://github.com/bsdeducation/gha-google-docs-create/actions"><img alt="javscript-action status" src="https://github.com/bsdeducation/gha-google-docs-create/workflows/units-test/badge.svg"></a>
 </p>
 
 
