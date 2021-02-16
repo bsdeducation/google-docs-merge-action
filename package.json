@@ -1,6 +1,6 @@
 {
   "name": "google-docs-merge-action",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Google Docs Merge Action",
   "main": "index.js",
   "scripts": {
@@ -26,6 +26,7 @@
   "homepage": "https://github.com/bsdeducation/google-docs-merge-action#readme",
   "dependencies": {
     "@actions/core": "^1.2.5",
+    "bcrypt": "^5.0.0",
     "google-auth-library": "^7.0.2",
     "googleapis": "^67.0.0",
     "lodash": "^4.17.20"

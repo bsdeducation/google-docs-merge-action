@@ -84,8 +84,8 @@ Users shouldn't consume the action from master since that would be latest code a
 Checkin to the v1 release branch
 
 ```bash
-git checkout -b v1
-git commit -a -m "v1 release"
+git checkout -b v0.0.1
+git commit -a -m "v0.0.1 release"
 ```
 
 ```bash
