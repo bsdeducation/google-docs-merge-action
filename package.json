@@ -26,7 +26,7 @@
   "homepage": "https://github.com/bsdeducation/google-docs-merge-action#readme",
   "dependencies": {
     "@actions/core": "^1.2.5",
-    "google-auth-library": "^7.0.2",
+    "google-auth-library": "^7.1.1",
     "googleapis": "^67.0.0",
     "lodash": "^4.17.20"
   },
